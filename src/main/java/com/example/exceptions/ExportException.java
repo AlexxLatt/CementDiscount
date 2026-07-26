@@ -1,4 +1,4 @@
-package Exceptions;
+package com.example.exceptions;
 
 public class ExportException extends RuntimeException{
 

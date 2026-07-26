@@ -1,19 +1,17 @@
-package Adapters;
+package com.example.processor;
 
-import Exceptions.FileParserExeption;
-import Interfaces.DataParser;
-
-import Shop.Purchase;
+import com.example.exceptions.FileParserExeption;
+import com.example.shop.OrderReceipt;
+import com.example.shop.Purchase;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class FileParserAdapter  implements DataParser {
+public class FileParser implements DataParser {
 
+    @Override
+    public void parseData(OrderReceipt orderReceipt, List<String> stringData ) {
 
-    public void parseData(Purchase purchase) {
-
-        List<String> stringData = purchase.getPurchaseStringData();
         List<String[]> parsedData = new ArrayList();
 
         Map<LocalDateTime, Map<String, Double>> finalData = new TreeMap<>();
@@ -31,7 +29,7 @@ public class FileParserAdapter  implements DataParser {
         } else {
             for (String data : stringData) {
 
-                parsedData.add(data.split("#"));
+                parsedData.add(data.split("\\|"));
                 Map<String, Double> purchaseCompany = new HashMap<>();
 
 
@@ -45,7 +43,7 @@ public class FileParserAdapter  implements DataParser {
                 index++;
 
             }
-            purchase.setPurchaseData(finalData);
+            orderReceipt.setPurchaseData(finalData);
 
             System.out.println("parsedData:");
             for (String[] arr : parsedData) {
@@ -53,5 +51,7 @@ public class FileParserAdapter  implements DataParser {
             }
         }
 
+
     }
+
 }
