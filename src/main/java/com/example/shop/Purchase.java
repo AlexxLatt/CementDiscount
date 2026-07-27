@@ -10,42 +10,40 @@ public class Purchase implements PurchaseManager {
 
 
     @Override
-    public void sortPurchaseByDiscount(OrderInvoice orderInvoice,OrderReceipt orderReceipt ,double discount) {
+    public void sortPurchaseByDiscount(OrderReceipts orderReceipts, OrderInvoice orderInvoice, double discount) {
 
-        Map<String, Double> purchaseDataSortedByDiscout = orderInvoice.getPurchaseDataSortedByDiscout();
-        Map<LocalDateTime, Map<String, Double>> purchaseData = orderReceipt.getPurchaseData();
+        List<Order> orders = orderReceipts.getOrderList();
+        Map<String, Double> purchaseDataSortedByDiscount = new HashMap<>();
+        Map<String, LocalDateTime> lastDateOfPurchase = new HashMap<>();
+
+        orders.sort(Comparator.comparing(Order::getDate));
 
         double currentDiscount = discount;
 
-        for (Map.Entry<LocalDateTime, Map<String, Double>> data : purchaseData.entrySet()) {
-            LocalDateTime purchaseDate = data.getKey();
-            Map<String, Double> innerMap = data.getValue();
 
-            for (Map.Entry<String, Double> company : innerMap.entrySet()) {
-                String companyName = company.getKey();
-                Double price = company.getValue();
+        for (Order order : orders) {
+            String companyName = order.getCompanyName();
+            Double price = order.getAmount();
+            LocalDateTime purchaseDate = order.getDate();
 
-                double discountedPrice = price - (price / 100 * currentDiscount);
+            double discountedPrice = price - (price / 100 * currentDiscount);
+            purchaseDataSortedByDiscount.merge(companyName, discountedPrice, Double::sum);
 
+            LocalDateTime existingDate = lastDateOfPurchase.get(companyName);
+            if (existingDate == null || purchaseDate.isAfter(existingDate)) {
+                lastDateOfPurchase.put(companyName, purchaseDate);
+            }
 
-                purchaseDataSortedByDiscout.merge(companyName, discountedPrice, Double::sum);
-
-                LocalDateTime existingDate = lastDateOfPurchase.get(companyName);
-
-                if (existingDate == null || purchaseDate.isAfter(existingDate)) {
-                    lastDateOfPurchase.put(companyName, purchaseDate);
-                }
-
-                currentDiscount -= 5;
-                if (currentDiscount <= 0) {
-                    currentDiscount = 0;
-                }
+            currentDiscount -= 5;
+            if (currentDiscount <= 0) {
+                currentDiscount = 0;
             }
         }
 
-        orderInvoice.setPurchaseDataSortedByDiscout(purchaseDataSortedByDiscout);
+        orderInvoice.setPurchaseDataSortedByDiscout(purchaseDataSortedByDiscount);
 
-        for (Map.Entry<String, Double> entry : purchaseDataSortedByDiscout.entrySet()) {
+
+        for (Map.Entry<String, Double> entry : purchaseDataSortedByDiscount.entrySet()) {
             System.out.println(entry.getKey() + " | последняя покупка: " +
                     lastDateOfPurchase.get(entry.getKey()) + " | сумма: " +
                     entry.getValue());

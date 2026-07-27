@@ -4,24 +4,23 @@ import com.example.adapters.DataParserAdapter;
 import com.example.exceptions.FileParserExeption;
 import com.example.exceptions.ImportException;
 import com.example.shop.OrderInvoice;
-import com.example.shop.OrderReceipt;
-import com.example.shop.Purchase;
+import com.example.shop.Order;
 
 import java.io.*;
 
 import com.example.exceptions.ExportException;
+import com.example.shop.OrderReceipts;
 
 import java.util.*;
 
 public class FileProcessor implements ProcessorFiles {
 
     FileParser fileParser = new FileParser();
-    DataParserAdapter dataParserAdapter = new DataParserAdapter();
+    DataParserAdapter dataParserAdapter = new DataParserAdapter(fileParser);
+
 
     @Override
-    public void importFile(OrderReceipt orderReceipt, String filePath, String typeParser) {
-
-        List<String> stringData = new ArrayList<>();
+    public void importFile(OrderReceipts orderReceipts, String filePath, String typeParser) {
 
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -29,16 +28,16 @@ public class FileProcessor implements ProcessorFiles {
             String line;
 
             while ((line = reader.readLine()) != null) {
-                stringData.add(line);
+
                 System.out.println(line);
 
                 if (typeParser.equals("|")) {
 
-                    fileParser.parseData(orderReceipt, stringData);
+                    fileParser.parseData(orderReceipts, line);
 
                 } else if (typeParser.equals("#")) {
 
-                    dataParserAdapter.parseData(orderReceipt, stringData);
+                    dataParserAdapter.parseData(orderReceipts, line);
 
                 } else {
 
@@ -48,9 +47,8 @@ public class FileProcessor implements ProcessorFiles {
 
 
         } catch (IOException e) {
-            throw new ImportException("Ошибка при чтении файла");
+            throw new ImportException("Ошибка при чтении файла" + e.getMessage());
         }
-        System.out.println("Всего строк" + stringData.size());
     }
 
 
@@ -58,6 +56,7 @@ public class FileProcessor implements ProcessorFiles {
     public void exportFile(OrderInvoice orderInvoice, String filePath) {
 
         Map<String, Double> purchaseDataSortedByDiscout = orderInvoice.getPurchaseDataSortedByDiscout();
+
 
         if (purchaseDataSortedByDiscout.isEmpty() || purchaseDataSortedByDiscout == null) {
 

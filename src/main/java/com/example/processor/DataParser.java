@@ -1,10 +1,10 @@
 package com.example.processor;
 
-import com.example.shop.OrderReceipt;
 
-import java.util.List;
+import com.example.shop.OrderReceipts;
+
 
 public interface DataParser {
 
-    public void parseData(OrderReceipt orderReceipt , List<String> stringData);
+    public void parseData(OrderReceipts orderReceipts, String stringData);
 }

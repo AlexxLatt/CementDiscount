@@ -1,7 +1,9 @@
 package com.example.shop;
 
+import java.util.List;
+
 public interface PurchaseManager {
 
-    void sortPurchaseByDiscount(OrderInvoice orderInvoice,OrderReceipt orderReceipt,double discount);
+    void sortPurchaseByDiscount(OrderReceipts orderReceipts, OrderInvoice orderInvoice, double discount);
 
 }
