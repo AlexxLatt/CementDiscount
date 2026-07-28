@@ -1,35 +1,27 @@
 package com.example;
 
-import com.example.processor.FileProcessor;
-import com.example.shop.OrderInvoice;
-import com.example.shop.Order;
-import com.example.shop.OrderReceipts;
-import com.example.shop.Purchase;
+import com.example.processor.ExportManager;
+import com.example.processor.ImportManager;
+import com.example.shop.*;
+
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
+
+        ImportManager importManager = new ImportManager();
+        ExportManager exportManager = new ExportManager();
         Purchase purchase = new Purchase();
-        FileProcessor fileProcessor = new FileProcessor();
 
+        List<Order> orders = importManager.processImport("src/main/resources/discount_day.txt");
 
-        OrderReceipts orderReceipts1 = new OrderReceipts();
-        OrderInvoice orderInvoice1 = new OrderInvoice();
+        List<Order> orders2 = importManager.processImport("src/main/resources/discount_day_without_ext");
 
+        Сhecks сhecks = purchase.sortPurchaseByDiscount(orders, 50);
+        Сhecks сhecks2 = purchase.sortPurchaseByDiscount(orders2, 50);
 
-        OrderReceipts orderReceipts2 = new OrderReceipts();
-        OrderInvoice orderInvoice2 = new OrderInvoice();
-
-
-        fileProcessor.importFile(orderReceipts1, "src/main/resources/discount_day.txt", "|");
-        purchase.sortPurchaseByDiscount(orderReceipts1, orderInvoice1, 50);
-        fileProcessor.exportFile(orderInvoice1, "src/main/resources/test1.txt");
-
-
-        fileProcessor.importFile(orderReceipts2, "src/main/resources/discount_day_without_ext", "#");
-        purchase.sortPurchaseByDiscount(orderReceipts2, orderInvoice2, 50);
-        fileProcessor.exportFile(orderInvoice2, "src/main/resources/test2.txt");
-
-
+        exportManager.processExport(сhecks, "src/main/resources/test3.txt");
+        exportManager.processExport(сhecks2, "src/main/resources/test4.txt");
     }
 }

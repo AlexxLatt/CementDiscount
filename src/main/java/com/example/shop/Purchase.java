@@ -10,9 +10,9 @@ public class Purchase implements PurchaseManager {
 
 
     @Override
-    public void sortPurchaseByDiscount(OrderReceipts orderReceipts, OrderInvoice orderInvoice, double discount) {
+    public Сhecks sortPurchaseByDiscount(List<Order> orders, double discount) {
 
-        List<Order> orders = orderReceipts.getOrderList();
+        Сhecks сhecks = new Сhecks();
         Map<String, Double> purchaseDataSortedByDiscount = new HashMap<>();
         Map<String, LocalDateTime> lastDateOfPurchase = new HashMap<>();
 
@@ -40,8 +40,6 @@ public class Purchase implements PurchaseManager {
             }
         }
 
-        orderInvoice.setPurchaseDataSortedByDiscout(purchaseDataSortedByDiscount);
-
 
         for (Map.Entry<String, Double> entry : purchaseDataSortedByDiscount.entrySet()) {
             System.out.println(entry.getKey() + " | последняя покупка: " +
@@ -49,7 +47,10 @@ public class Purchase implements PurchaseManager {
                     entry.getValue());
         }
 
+        сhecks.setСompanyCheckAmounts(purchaseDataSortedByDiscount);
 
+
+        return сhecks;
     }
 
 

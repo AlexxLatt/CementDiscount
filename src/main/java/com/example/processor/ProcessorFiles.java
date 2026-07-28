@@ -1,16 +1,13 @@
 package com.example.processor;
 
-import com.example.shop.OrderInvoice;
+import com.example.shop.Сhecks;
 import com.example.shop.Order;
-import com.example.shop.OrderReceipts;
+
+import java.util.List;
 
 public interface ProcessorFiles {
 
-    void exportFile(OrderInvoice orderInvoice, String filePath);
-
-
-    void importFile(OrderReceipts orderReceipts, String filePath, String typeParser);
-
+    List<Order> importFile(String filePath);
 
 }
 
