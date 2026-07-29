@@ -1,16 +1,17 @@
 package com.example.processor;
 
 import com.example.exceptions.ExportException;
+import com.example.exceptions.ImportException;
 import com.example.parser.DataParser;
 import com.example.parser.ParserFactory;
+import com.example.shop.Check;
 import com.example.shop.Order;
-import com.example.shop.Сhecks;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 public class FileManager {
 
@@ -19,18 +20,29 @@ public class FileManager {
 
         DataParser dataParser = ParserFactory.create(filePath);
 
-        ImportProcessor fileProcessor = new ImportProcessor(dataParser);
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
 
-        return fileProcessor.importFile(filePath);
+
+            List<Order> orders = new ArrayList<>();
+
+            while ((line = reader.readLine()) != null) {
+                orders.add(dataParser.parseData(line));
+            }
+
+            return orders;
+        } catch (IOException e) {
+
+            throw new ImportException("Ошибка при чтении файла: " + e.getMessage());
+        }
 
     }
 
 
-    public static void processExport(Сhecks checks, String filePath) {
-        Map<String, Double> purchaseDataSortedByDiscout = checks.getcompanyCheckAmounts();
+    public static void processExport(List<Check> checks, String filePath) {
 
 
-        if (purchaseDataSortedByDiscout == null || purchaseDataSortedByDiscout.isEmpty()) {
+        if (checks == null || checks.isEmpty()) {
 
             throw new ExportException("В покупах еще не было расчет скидок");
         }
@@ -39,8 +51,8 @@ public class FileManager {
 
             String line = "";
 
-            for (Map.Entry<String, Double> data : purchaseDataSortedByDiscout.entrySet()) {
-                line = data.getKey() + " - " + data.getValue();
+            for (Check check : checks) {
+                line = check.companyName() + " | " + check.price();
 
                 writer.write(line);
                 writer.newLine();

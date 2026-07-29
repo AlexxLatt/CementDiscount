@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface PurchaseManager {
 
-    Сhecks calculatePrices(List<Order> orders,double unitPrice, double discount , double step );
+    List<Check> calculatePrices(List<Order> orders, double unitPrice, double discount , double step );
 
 }

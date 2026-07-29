@@ -4,9 +4,6 @@ import com.example.exceptions.FileParserExeption;
 import com.example.shop.Order;
 
 import java.time.LocalDateTime;
-
-import static java.lang.Double.parseDouble;
-
 public class DataParserImpl implements DataParser {
 
 

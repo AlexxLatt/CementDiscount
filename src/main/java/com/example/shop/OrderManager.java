@@ -12,7 +12,7 @@ public class OrderManager {
         List<Order> orders = fileManager.processImport(readPath);
 
 
-        Сhecks сhecks = purchase.calculatePrices(orders, unitPrice, currentDiscount, step);
+        List<Check> сhecks = purchase.calculatePrices(orders, unitPrice, currentDiscount, step);
 
         fileManager.processExport(сhecks, writePath);
 

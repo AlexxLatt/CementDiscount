@@ -6,11 +6,12 @@ import java.util.*;
 public class OrderService implements PurchaseManager {
 
     @Override
-    public Сhecks calculatePrices(List<Order> orders, double unitPrice, double discount, double step) {
+    public List<Check> calculatePrices(List<Order> orders, double unitPrice, double discount, double step) {
 
-        Сhecks сhecks = new Сhecks();
+
         Map<String, Double> purchaseDataSortedByDiscount = new HashMap<>();
         Map<String, LocalDateTime> lastDateOfPurchase = new HashMap<>();
+        List<Check> checkList = new ArrayList<>();
 
         orders.sort(Comparator.comparing(Order::date));
 
@@ -30,7 +31,9 @@ public class OrderService implements PurchaseManager {
 
             LocalDateTime existingDate = lastDateOfPurchase.get(companyName);
             if (existingDate == null || purchaseDate.isAfter(existingDate)) {
-                lastDateOfPurchase.put(companyName, purchaseDate);
+                    Check  check = new Check(companyName, price);
+                    checkList.add(check);
+
             }
 
             currentDiscount -= step;
@@ -46,10 +49,10 @@ public class OrderService implements PurchaseManager {
                     entry.getValue());
         }
 
-        сhecks.setСompanyCheckAmounts(purchaseDataSortedByDiscount);
 
 
-        return сhecks;
+
+        return checkList;
     }
 
 
