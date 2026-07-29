@@ -1,11 +1,13 @@
-package com.example.processor;
+package com.example.parser;
 
 import com.example.exceptions.FileParserExeption;
 import com.example.shop.Order;
 
 import java.time.LocalDateTime;
 
-public class FileParser implements DataParser {
+import static java.lang.Double.parseDouble;
+
+public class DataParserImpl implements DataParser {
 
 
     @Override
@@ -19,20 +21,12 @@ public class FileParser implements DataParser {
             throw new FileParserExeption("Недостаточно данных в строке: " + stringData);
         }
 
-        // Создаем новую покупку
-
-        Order order = new Order();
-        order.setDate(LocalDateTime.parse(parts[0]));
-        order.setCompanyName(parts[1]);
-        order.setAmount(Double.parseDouble(parts[2]));
-
-        // Добавляем в переданный OrderReceipts
-
+        Order order = new Order(LocalDateTime.parse(parts[0]),parts[1], Double.parseDouble(parts[2]));
 
         System.out.println("Добавлена покупка: " +
-                order.getDate() + " | " +
-                order.getCompanyName() + " | " +
-                order.getAmount());
+                order.date() + " | " +
+                order.companyName() + " | " +
+                order.amount());
 
         return order;
     }

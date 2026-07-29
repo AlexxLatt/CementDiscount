@@ -1,4 +1,4 @@
-package com.example.processor;
+package com.example.parser;
 
 import com.example.adapters.DataParserAdapter;
 import org.apache.commons.io.FilenameUtils;
@@ -36,8 +36,8 @@ public class ParserFactory {
         ParserFactory.TypeParser type = ParserFactory.TypeParser.fromString(extension);
 
         return switch (type) {
-            case TXT -> new FileParser();
-            case NOTYPE -> new DataParserAdapter();
+            case TXT -> new DataParserImpl();
+            case NOTYPE -> new DataParserAdapter(new DataParserImpl());
 
         };
 

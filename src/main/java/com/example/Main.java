@@ -1,27 +1,20 @@
 package com.example;
 
-import com.example.processor.ExportManager;
-import com.example.processor.ImportManager;
+import com.example.processor.FileManager;
 import com.example.shop.*;
 
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
 
-        ImportManager importManager = new ImportManager();
-        ExportManager exportManager = new ExportManager();
-        Purchase purchase = new Purchase();
+        OrderManager orderManager = new OrderManager();
 
-        List<Order> orders = importManager.processImport("src/main/resources/discount_day.txt");
+        FileManager fileManager = new FileManager();
+        OrderService orderService = new OrderService();
 
-        List<Order> orders2 = importManager.processImport("src/main/resources/discount_day_without_ext");
+        orderManager.execution("src/main/resources/discount_day.txt", "src/main/resources/test1.txt", 5.00, 50.00, 5.0, fileManager , orderService);
+        orderManager.execution("src/main/resources/discount_day_without_ext", "src/main/resources/test2.txt", 5.00, 50.00, 5.0, fileManager ,orderService);
 
-        Сhecks сhecks = purchase.sortPurchaseByDiscount(orders, 50);
-        Сhecks сhecks2 = purchase.sortPurchaseByDiscount(orders2, 50);
-
-        exportManager.processExport(сhecks, "src/main/resources/test3.txt");
-        exportManager.processExport(сhecks2, "src/main/resources/test4.txt");
     }
 }

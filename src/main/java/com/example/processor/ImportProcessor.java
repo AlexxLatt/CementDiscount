@@ -2,6 +2,7 @@ package com.example.processor;
 
 
 import com.example.exceptions.ImportException;
+import com.example.parser.DataParser;
 import com.example.shop.Order;
 
 
@@ -9,7 +10,7 @@ import java.io.*;
 
 import java.util.*;
 
-public class ImportProcessor implements ProcessorFiles {
+public class ImportProcessor  {
 
 
     private DataParser dataParser;
@@ -18,7 +19,7 @@ public class ImportProcessor implements ProcessorFiles {
         this.dataParser = dataParser;
     }
 
-    @Override
+
     public List<Order> importFile(String filePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;

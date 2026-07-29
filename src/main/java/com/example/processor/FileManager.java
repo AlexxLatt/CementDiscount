@@ -1,14 +1,30 @@
 package com.example.processor;
 
 import com.example.exceptions.ExportException;
+import com.example.parser.DataParser;
+import com.example.parser.ParserFactory;
+import com.example.shop.Order;
 import com.example.shop.Сhecks;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
-public class ExportManager {
+public class FileManager {
+
+    public List<Order> processImport(String filePath) {
+
+
+        DataParser dataParser = ParserFactory.create(filePath);
+
+        ImportProcessor fileProcessor = new ImportProcessor(dataParser);
+
+        return fileProcessor.importFile(filePath);
+
+    }
+
 
     public static void processExport(Сhecks checks, String filePath) {
         Map<String, Double> purchaseDataSortedByDiscout = checks.getcompanyCheckAmounts();

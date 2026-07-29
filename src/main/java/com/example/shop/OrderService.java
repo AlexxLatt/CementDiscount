@@ -3,30 +3,29 @@ package com.example.shop;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class Purchase implements PurchaseManager {
-
-
-    Map<String, LocalDateTime> lastDateOfPurchase = new TreeMap<>();
-
+public class OrderService implements PurchaseManager {
 
     @Override
-    public Сhecks sortPurchaseByDiscount(List<Order> orders, double discount) {
+    public Сhecks calculatePrices(List<Order> orders, double unitPrice, double discount, double step) {
 
         Сhecks сhecks = new Сhecks();
         Map<String, Double> purchaseDataSortedByDiscount = new HashMap<>();
         Map<String, LocalDateTime> lastDateOfPurchase = new HashMap<>();
 
-        orders.sort(Comparator.comparing(Order::getDate));
+        orders.sort(Comparator.comparing(Order::date));
 
         double currentDiscount = discount;
 
 
         for (Order order : orders) {
-            String companyName = order.getCompanyName();
-            Double price = order.getAmount();
-            LocalDateTime purchaseDate = order.getDate();
 
-            double discountedPrice = price - (price / 100 * currentDiscount);
+            String companyName = order.companyName();
+            Double amount = order.amount();
+            Double price = amount * unitPrice;
+            LocalDateTime purchaseDate = order.date();
+
+
+            double discountedPrice = price - (price / 100.00 * currentDiscount);
             purchaseDataSortedByDiscount.merge(companyName, discountedPrice, Double::sum);
 
             LocalDateTime existingDate = lastDateOfPurchase.get(companyName);
@@ -34,7 +33,7 @@ public class Purchase implements PurchaseManager {
                 lastDateOfPurchase.put(companyName, purchaseDate);
             }
 
-            currentDiscount -= 5;
+            currentDiscount -= step;
             if (currentDiscount <= 0) {
                 currentDiscount = 0;
             }
@@ -54,18 +53,4 @@ public class Purchase implements PurchaseManager {
     }
 
 
-    public Map<String, LocalDateTime> getLastDateOfPurchase() {
-        return lastDateOfPurchase;
-    }
-
-    public void setLastDateOfPurchase(Map<String, LocalDateTime> lastDateOfPurchase) {
-        this.lastDateOfPurchase = lastDateOfPurchase;
-    }
-
-    @Override
-    public String toString() {
-        return "Purchase{" +
-                "lastDateOfPurchase=" + lastDateOfPurchase +
-                '}';
-    }
 }

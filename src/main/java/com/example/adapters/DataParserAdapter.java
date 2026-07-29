@@ -1,15 +1,21 @@
 package com.example.adapters;
 
-import com.example.processor.FileParser;
+import com.example.parser.DataParser;
 import com.example.shop.Order;
 
 
-public class DataParserAdapter extends FileParser {
+public class DataParserAdapter implements DataParser {
+    private final DataParser dataParser;
+
+    public DataParserAdapter(DataParser dataParser) {
+        this.dataParser = dataParser;
+    }
+
     @Override
     public Order parseData(String stringData) {
 
         String newTypeStringData = stringData.replaceAll("#", "\\|");
-        return super.parseData(newTypeStringData);
+        return dataParser.parseData(newTypeStringData);
 
     }
 }
