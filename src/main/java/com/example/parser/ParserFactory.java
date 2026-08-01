@@ -1,6 +1,5 @@
 package com.example.parser;
 
-import com.example.adapters.DataParserAdapter;
 import org.apache.commons.io.FilenameUtils;
 
 public class ParserFactory {
@@ -33,6 +32,7 @@ public class ParserFactory {
     public static DataParser create(String filePath) {
 
         String extension = FilenameUtils.getExtension(filePath);
+        System.out.println("extension:"+ extension);
         ParserFactory.TypeParser type = ParserFactory.TypeParser.fromString(extension);
 
         return switch (type) {

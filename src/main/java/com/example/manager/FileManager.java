@@ -1,9 +1,8 @@
-package com.example.processor;
+package com.example.manager;
 
 import com.example.exceptions.ExportException;
 import com.example.exceptions.ImportException;
 import com.example.parser.DataParser;
-import com.example.parser.ParserFactory;
 import com.example.shop.Check;
 import com.example.shop.Order;
 
@@ -15,10 +14,9 @@ import java.util.List;
 
 public class FileManager {
 
-    public List<Order> processImport(String filePath) {
+    public List<Order> processImport(String filePath, DataParser dataParser) {
 
 
-        DataParser dataParser = ParserFactory.create(filePath);
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -37,6 +35,7 @@ public class FileManager {
         }
 
     }
+
 
 
     public static void processExport(List<Check> checks, String filePath) {

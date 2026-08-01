@@ -1,12 +1,12 @@
 package com.example;
 
-import com.example.processor.FileManager;
-import com.example.shop.*;
+import com.example.manager.OrderManager;
+import com.example.manager.OrderService;
+import com.example.manager.FileManager;
 
 
 public class Main {
     public static void main(String[] args) {
-
 
         OrderManager orderManager = new OrderManager();
 

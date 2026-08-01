@@ -28,5 +28,8 @@ public class DataParserImpl implements DataParser {
         return order;
     }
 
-
+    @Override
+    public String toString() {
+        return "DataParserImpl{}";
+    }
 }
