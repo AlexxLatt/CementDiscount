@@ -1,7 +1,7 @@
 package com.example.parser;
 
 import com.example.exceptions.FileParserExeption;
-import com.example.shop.Order;
+import com.example.order.Order;
 
 import java.time.LocalDateTime;
 public class DataParserImpl implements DataParser {

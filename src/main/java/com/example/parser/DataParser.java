@@ -1,7 +1,7 @@
 package com.example.parser;
 
 
-import com.example.shop.Order;
+import com.example.order.Order;
 
 public interface DataParser {
 

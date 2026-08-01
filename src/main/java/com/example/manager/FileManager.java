@@ -3,8 +3,8 @@ package com.example.manager;
 import com.example.exceptions.ExportException;
 import com.example.exceptions.ImportException;
 import com.example.parser.DataParser;
-import com.example.shop.Check;
-import com.example.shop.Order;
+import com.example.order.Check;
+import com.example.order.Order;
 
 
 import java.io.*;

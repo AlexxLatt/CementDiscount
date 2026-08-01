@@ -2,8 +2,9 @@ package com.example.manager;
 
 import com.example.parser.DataParser;
 import com.example.parser.ParserFactory;
-import com.example.shop.Check;
-import com.example.shop.Order;
+import com.example.order.Check;
+import com.example.order.Order;
+import com.example.service.OrderService;
 
 import java.util.List;
 

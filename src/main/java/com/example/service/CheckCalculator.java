@@ -1,7 +1,7 @@
-package com.example.manager;
+package com.example.service;
 
-import com.example.shop.Check;
-import com.example.shop.Order;
+import com.example.order.Check;
+import com.example.order.Order;
 
 import java.util.List;
 
