@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.io.IOException;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,47 +25,6 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class OrderManagerTest {
-
-    private List<Order> createOrderList(){
-        List<Order> mockOrders = List.of(
-                new Order(LocalDateTime.parse("2021-02-09T08:19:22"), "Recovery", 11340.0),
-                new Order(LocalDateTime.parse("2021-02-09T08:42:59"), "Power Engineer", 17480.0),
-                new Order(LocalDateTime.parse("2021-02-09T08:57:51"), "Preparatory", 21410.0),
-                new Order(LocalDateTime.parse("2021-02-09T09:11:43"), "Pyramid", 10100.0),
-                new Order(LocalDateTime.parse("2021-02-09T09:50:10"), "Fossil", 19600.0),
-                new Order(LocalDateTime.parse("2021-02-09T10:48:34"), "Mosque", 33120.0),
-                new Order(LocalDateTime.parse("2021-02-09T11:41:31"), "Atomic", 12500.0),
-                new Order(LocalDateTime.parse("2021-02-09T12:32:48"), "Electricity", 3680.0),
-                new Order(LocalDateTime.parse("2021-02-09T16:00:22"), "Industrial", 8800.0),
-                new Order(LocalDateTime.parse("2021-02-09T17:39:17"), "Carryover", 29670.0),
-                new Order(LocalDateTime.parse("2021-02-09T20:26:03"), "Resident", 5610.0),
-                new Order(LocalDateTime.parse("2021-02-09T21:10:34"), "Ancillary", 30000.0),
-                new Order(LocalDateTime.parse("2021-02-10T08:53:25"), "Power Engineer", 24600.0)
-        );
-        return mockOrders;
-
-    }
-
-    private List<Check> createCheckList(){
-
-        List<Check> mockChecks = List.of(
-                new Check("Pyramid", 32825.0),
-                new Check("Electricity", 15640.0),
-                new Check("Preparatory", 64230.0),
-                new Check("Industrial", 39600.0),
-                new Check("Power Engineer", 171070.0),
-                new Check("Mosque", 124200.0),
-                new Check("Carryover", 140932.5),
-                new Check("Resident", 28050.0),
-                new Check("Fossil", 68600.0),
-                new Check("Atomic", 50000.0),
-                new Check("Recovery", 28350.0),
-                new Check("Ancillary", 150000.0)
-        );
-
-        return mockChecks;
-
-    }
 
     @Mock
     private OrderService orderService;
@@ -77,10 +37,10 @@ public class OrderManagerTest {
 
 
     @Test
-    void execution_TestTxtType(@TempDir Path tempDir) throws IOException {
+    void execution_TestTxtType()   {
 
         String inputPath = "discount_day.txt";
-        Path outputFile = tempDir.resolve("test1.txt");
+        Path outputFile = Paths.get("test1.txt");
 
         List<Order> mockOrders = createOrderList();
 
@@ -108,6 +68,45 @@ public class OrderManagerTest {
         verify(fileManager).processExport(eq(mockChecks), eq(outputFile.toString()));
     }
 
+
+    private List<Order> createOrderList() {
+        return List.of(
+                new Order(LocalDateTime.parse("2021-02-09T16:00:22"), "Industrial", 8800.0),
+                new Order(LocalDateTime.parse("2021-02-09T08:42:59"), "Power Engineer", 17480.0),
+                new Order(LocalDateTime.parse("2021-02-09T10:48:34"), "Mosque", 33120.0),
+                new Order(LocalDateTime.parse("2021-02-09T08:19:22"), "Recovery", 11340.0),
+                new Order(LocalDateTime.parse("2021-02-09T11:41:31"), "Atomic", 12500.0),
+                new Order(LocalDateTime.parse("2021-02-09T08:57:51"), "Preparatory", 21410.0),
+                new Order(LocalDateTime.parse("2021-02-09T20:26:03"), "Resident", 5610.0),
+                new Order(LocalDateTime.parse("2021-02-09T09:50:10"), "Fossil", 19600.0),
+                new Order(LocalDateTime.parse("2021-02-10T08:53:25"), "Power Engineer", 24600.0),
+                new Order(LocalDateTime.parse("2021-02-09T17:39:17"), "Carryover", 29670.0),
+                new Order(LocalDateTime.parse("2021-02-09T12:32:48"), "Electricity", 3680.0),
+                new Order(LocalDateTime.parse("2021-02-09T21:10:34"), "Ancillary", 30000.0),
+                new Order(LocalDateTime.parse("2021-02-09T09:11:43"), "Pyramid", 10100.0)
+        );
+    }
+
+    private List<Check> createCheckList(){
+
+        List<Check> mockChecks = List.of(
+                new Check("Pyramid", 32825.0),
+                new Check("Electricity", 15640.0),
+                new Check("Preparatory", 64230.0),
+                new Check("Industrial", 39600.0),
+                new Check("Power Engineer", 171070.0),
+                new Check("Mosque", 124200.0),
+                new Check("Carryover", 140932.5),
+                new Check("Resident", 28050.0),
+                new Check("Fossil", 68600.0),
+                new Check("Atomic", 50000.0),
+                new Check("Recovery", 28350.0),
+                new Check("Ancillary", 150000.0)
+        );
+
+        return mockChecks;
+
+    }
 
 
 

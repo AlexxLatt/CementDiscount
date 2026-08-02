@@ -26,6 +26,7 @@ public class FileManager {
 
             while ((line = reader.readLine()) != null) {
                 orders.add(dataParser.parseData(line));
+                System.out.println("String: "+ line);
             }
 
             return orders;
