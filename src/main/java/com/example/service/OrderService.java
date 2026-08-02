@@ -46,7 +46,9 @@ public class OrderService implements CheckCalculator {
                 .toList();
 
 
+        System.out.println(checkList);
         return checkList;
+
     }
 
 

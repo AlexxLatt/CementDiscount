@@ -9,9 +9,16 @@ import com.example.service.OrderService;
 import java.util.List;
 
 public class OrderManager {
+     private FileManager fileManager;
+     private OrderService orderService;
 
 
-    public void execution(String readPath, String writePath, Double unitPrice, Double currentDiscount, Double step, FileManager fileManager , OrderService purchase) {
+    public OrderManager(OrderService orderService, FileManager fileManager) {
+        this.orderService = orderService;
+        this.fileManager = fileManager;
+    }
+
+    public void execution(String readPath, String writePath, Double unitPrice, Double currentDiscount, Double step) {
 
         DataParser dataParser = ParserFactory.create(readPath);
 
@@ -21,7 +28,9 @@ public class OrderManager {
         List<Order> orders = fileManager.processImport(readPath ,dataParser);
 
 
-        List<Check> сhecks = purchase.calculatePrices(orders, unitPrice, currentDiscount, step);
+        System.out.println(orders);
+
+        List<Check> сhecks = orderService.calculatePrices(orders, unitPrice, currentDiscount, step);
 
         fileManager.processExport(сhecks, writePath);
 

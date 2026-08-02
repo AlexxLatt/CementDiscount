@@ -38,7 +38,7 @@ public class FileManager {
 
 
 
-    public static void processExport(List<Check> checks, String filePath) {
+    public void processExport(List<Check> checks, String filePath) {
 
 
         if (checks == null || checks.isEmpty()) {
@@ -61,4 +61,5 @@ public class FileManager {
             throw new ExportException("Ошибка при записи файла");
         }
     }
+
 }
